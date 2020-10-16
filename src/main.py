@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-from stock import Stock
+from stock.model import Stock
 
 app = Flask(__name__)
 
