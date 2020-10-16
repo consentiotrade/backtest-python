@@ -1,12 +1,10 @@
 from flask import Flask, jsonify, request
 
 from stock import Stock
-from stock.service import StockService
-
 
 app = Flask(__name__)
 
-stock_service = StockService()
+stocks = []
 
 
 @app.route("/", methods=["GET"])
@@ -16,13 +14,13 @@ def index():
 
 @app.route("/stock", methods=["GET"])
 def get_stocks():
-    return jsonify([st.serialize() for st in stock_service.get_all()])
+    return jsonify([st.serialize() for st in stocks])
 
 
 @app.route("/stock", methods=["POST"])
 def load_stocks():
     st = Stock.parse(request.get_json())
-    stock_service.add(st)
+    stocks.append(st)
     return jsonify(st.serialize())
 
 
