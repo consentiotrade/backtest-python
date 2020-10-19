@@ -14,6 +14,7 @@ We would like to:
 * What would you do next with this project?
 
 ## How to
+
 * Install [pip](https://pip.pypa.io/en/stable/installing/)
 * Install the project dependencies: `$ pip install -r requirements.txt`
 * The following commands must be executed inside the `src` folder!!
