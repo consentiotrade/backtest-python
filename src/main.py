@@ -29,29 +29,18 @@ def load_stocks():
 @app.route("/client", methods=["POST"])
 def load_client():
     data = request.get_json()
-    c = Client(data["client_id"], data["name"])
+    c = Client.parse(data)
     clients[c.client_id] = c
-    result = {
-        "client_id": c.client_id,
-        "name": c.name,
-        "portfolio": {k: v.serialize() for (k, v) in c.portfolio.items()},
-    }
-    return jsonify(result)
+    return jsonify(c.serialize())
 
 
-@app.route("/client/<a>/portfolio", methods=["POST"])
-def add_portfolio(a):
-    data = request.get_json()
-    sa = StockA.parse(data)
-    c = clients[a]
+@app.route("/client/<client_id>/portfolio", methods=["POST"])
+def add_portfolio(client_id):
+    sa = StockA.parse(request.get_json())
+    c = clients[client_id]
     c.add_to_portfolio(sa)
-    clients[a] = c
-    result = {
-        "client_id": c.client_id,
-        "name": c.name,
-        "portfolio": {k: v.serialize() for (k, v) in c.portfolio.items()},
-    }
-    return jsonify(result)
+    clients[client_id] = c
+    return jsonify(c.serialize())
 
 
 if __name__ == "__main__":

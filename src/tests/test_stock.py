@@ -26,10 +26,7 @@ class TestPortfolio(unittest.TestCase):
         main.app.config["TESTING"] = True
         self.client = main.app.test_client()
 
-    def test_get_stocks(self):
-        """
-        testing adding elements to portfolio
-        """
+    def test_add_to_porfolio(self):
         main.clients = {
             "foo": Client("foo", "Manolo"),
         }

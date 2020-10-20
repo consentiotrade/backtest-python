@@ -35,8 +35,8 @@ class StockA:
     """
 
     def __init__(self, s, a):
-        self.s = s
-        self.a = a
+        self.stock = s
+        self.amount = a
 
     @staticmethod
     def parse(data):
@@ -55,12 +55,12 @@ class StockA:
     def serialize(self):
         return {
             "stock": {
-                "symbol": self.s.symbol,
-                "price": self.s.price,
-                "currency": self.s.currency,
-                "created_at": self.s.created_at,
+                "symbol": self.stock.symbol,
+                "price": self.stock.price,
+                "currency": self.stock.currency,
+                "created_at": self.stock.created_at,
             },
-            "amount": self.a,
+            "amount": self.amount,
         }
 
 
@@ -71,4 +71,15 @@ class Client:
         self.portfolio = {}
 
     def add_to_portfolio(self, s):
-        self.portfolio[s.s.symbol] = s
+        self.portfolio[s.stock.symbol] = s
+
+    @staticmethod
+    def parse(data):
+        return Client(data["client_id"], data["name"])
+
+    def serialize(self):
+        return {
+            "client_id": self.client_id,
+            "name": self.name,
+            "portfolio": {k: v.serialize() for (k, v) in self.portfolio.items()},
+        }
